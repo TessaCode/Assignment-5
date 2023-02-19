@@ -1,0 +1,65 @@
+---
+title: "Assignment-5"
+author: "Tessa Code"
+date: "2/13/2023"
+output: 
+html_document:
+  keep_md: yes
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, echo = TRUE)
+
+library(tidyverse)
+library(here)
+library(ggExtra)
+library(ggtext)
+```
+
+
+```{r load data, echo=FALSE}
+data <- read_csv(here(file = "data/SiscowetMI2004.csv"))
+```
+
+## Initial graphs
+
+```{r initial}
+data %>%
+  filter(wgt < 15000) %>%
+  ggplot(aes(x = len, y = wgt, color = locID)) + geom_point()
+
+data %>%
+  ggplot(aes(x = len, y = wgt, color = sex)) + 
+  geom_point() + theme_minimal()
+```
+
+## Exploritory figure
+
+```{r exploritory} 
+
+data %>%
+  ggplot(aes(x = age, y = len, color = sex)) + geom_point()
+
+```
+
+
+## Expository figure
+
+```{r expository}
+data %>%
+  na.omit() %>%
+  ggplot(aes(x = age, y = len, color = sex)) + geom_point() + 
+  theme_classic() +
+  scale_color_viridis_d()+
+  xlab("Age (years)") +
+  ylab("Length (mm)") +
+  labs(color="Sex",
+             title = "<b> Siscowet Lake Trout length increases with age </b><br>
+               <span style = 'font-size:10pt'><span style='color:#440154'>Female</span> and <span style='color:#FDE725'>Male</span> trout continue to grow as they age. </span>") +
+  theme(plot.title.position = "plot",
+        plot.title = element_textbox_simple(size=12),
+        legend.position = "none")
+
+```
+
